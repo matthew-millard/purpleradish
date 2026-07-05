@@ -36,7 +36,9 @@
         "waitlist_signups_email_unique": {
           "name": "waitlist_signups_email_unique",
           "nullsNotDistinct": false,
-          "columns": ["email"]
+          "columns": [
+            "email"
+          ]
         }
       },
       "policies": {},
