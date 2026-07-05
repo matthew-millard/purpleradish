@@ -79,7 +79,7 @@ Gotcha: `overflow: hidden` clips correctly in CSS, but anyone cropping images in
 
 ## Copy register
 
-Sentence case everywhere. Lowercase tracked labels are the only exception to sentence case, and they're a typographic treatment, not a capitalization rule. Verb-first buttons ("Start free pilot", "Confirm order"). No exclamation marks in system copy. Empty states are invitations, not apologies ("No orders yet tonight. They'll appear here the moment someone starts a chat.").
+Sentence case everywhere. Lowercase tracked labels are the only exception to sentence case, and they're a typographic treatment, not a capitalization rule. Verb-first buttons ("Start free pilot", "Confirm order"). No exclamation marks in system copy. No em dashes; use commas or split the sentence. Empty states are invitations, not apologies ("No orders yet tonight. They'll appear here the moment someone starts a chat.").
 
 ## The mark
 
