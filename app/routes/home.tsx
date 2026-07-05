@@ -1,5 +1,6 @@
 import { data, useFetcher } from "react-router";
 import type { Route } from "./+types/home";
+import { TextInput } from "@components/TextInput/TextInput";
 import { validateWaitlistInput } from "../domain/waitlist";
 import styles from "./home.module.css";
 
@@ -119,13 +120,13 @@ function WaitlistForm() {
       <label className={styles.srOnly} htmlFor="email">
         Email address
       </label>
-      <input
+      <TextInput
         id="email"
         name="email"
         type="email"
         required
         placeholder="you@yourrestaurant.com"
-        className={styles.input}
+        className={styles.emailInput}
         autoComplete="email"
       />
       <button type="submit" className={styles.submit} disabled={submitting}>

@@ -74,21 +74,8 @@
   flex-wrap: wrap;
 }
 
-.input {
-  background: var(--pr-surface-0);
-  border: 1px solid var(--pr-border-strong);
-  border-radius: var(--pr-radius-md);
-  font-family: var(--pr-font-sans);
-  font-size: var(--pr-text-small);
-  color: var(--pr-text-primary);
-  padding: 10px 14px;
+.emailInput {
   min-width: 260px;
-}
-
-.input:focus {
-  outline: none;
-  border-color: var(--pr-focus-border);
-  box-shadow: var(--pr-focus-ring);
 }
 
 .submit {

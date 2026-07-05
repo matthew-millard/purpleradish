@@ -40,6 +40,8 @@ Before shipping any screen, run the checklist at the end of `docs/STYLE_GUIDE.md
 
 ## Conventions
 
+- **No barrel files (`index.ts` re-exports).** Import directly from the module: `@components/<Name>/<Name>`.
+- Components live in `app/components/<Name>/` — `<Name>.tsx` plus `<Name>.module.css`, imported via the `@components/*` alias.
 - Conventional Commits for commit messages.
 - Migrations: never edit an applied migration; add a new one.
 - Env vars documented in `.env.example` the moment they're introduced.
