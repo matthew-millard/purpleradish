@@ -18,6 +18,12 @@
 
    Dark mode roughly doubles perceived color loudness. The quiet budget is
    mandatory in dark; some tokens are mode-asymmetric ON PURPOSE.
+
+   Breakpoint: 720px, mobile-first — write base styles for small screens,
+   reveal/expand at `@media (min-width: 720px)`. CSS variables can't be
+   used in media queries, so repeat the literal and keep this comment as
+   the source of truth. Add a second breakpoint only when a real layout
+   demands it.
    ========================================================================== */
 
 @import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Schibsted+Grotesk:ital,wght@0,400;0,500;1,400;1,500&family=Spline+Sans+Mono:wght@400;500&display=swap");
