@@ -35,6 +35,7 @@ Source of truth: `app/styles/tokens.css` and `STYLE_GUIDE.md` (in `/docs`). The 
 7. **Emphasis in running text:** never bold — Schibsted italic in magenta 600 (`.pr-em`). Bold is for headings and totals only.
 8. **Labels:** lowercase, 12px, +2.5px letterspacing (`.pr-label`).
 9. Navigation active state is neutral lavender, never green.
+10. **Copy: no em dashes.** Use commas or split the sentence. Full copy register in `docs/STYLE_GUIDE.md`.
 
 Before shipping any screen, run the checklist at the end of `docs/STYLE_GUIDE.md`.
 

@@ -7,11 +7,11 @@ import { Header } from "~/components/Header/Header";
 
 export function meta(_: Route.MetaArgs) {
   return [
-    { title: "purpleradish — your regulars order before they sit down" },
+    { title: "purpleradish.io" },
     {
       name: "description",
       content:
-        "A conversational ordering layer that plugs into the POS you already run. No app downloads, no new hardware, no retraining.",
+        "Let your customers order right from WhatsApp, ChatGPT, Siri, or Claude and the order lands in the POS you already run. No commissions, no app, no new hardware.",
     },
   ];
 }
@@ -53,14 +53,12 @@ export default function Home(_: Route.ComponentProps) {
       <main>
         <section className={styles.hero}>
           <span className={styles.badge}>Piloting soon in Ottawa</span>
-          <h1 className={styles.headline}>
-            Your regulars order before they <span className={styles.headlineMark}>sit down</span>
-          </h1>
+          <h1 className={styles.headline}>No commissions. No app. No new hardware.</h1>
           <p className={styles.subhead}>
-            A conversational ordering layer that plugs into the POS you already run. Customers order
-            in plain language over web chat or WhatsApp. No app downloads, no new hardware, no
-            retraining.
+            Let your customers order right from WhatsApp, ChatGPT, Siri, or Claude and the order
+            lands in the POS you already run.
           </p>
+          <p className={styles.catchLine}>Built by the industry, for the industry.</p>
           <WaitlistForm />
         </section>
 
@@ -69,7 +67,8 @@ export default function Home(_: Route.ComponentProps) {
             <p className={`${styles.propStat} pr-data`}>38s</p>
             <p className={styles.propLabel}>average order time</p>
             <p className={styles.propBody}>
-              Regulars skip the menu scroll. They say what they want; it lands in your kitchen.
+              No menu scroll, no checkout flow. Regulars say what they want, wherever they already
+              are, and it lands in your kitchen.
             </p>
           </div>
           <div className={styles.prop}>

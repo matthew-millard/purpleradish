@@ -45,8 +45,15 @@
   font-size: 15px;
   line-height: 1.65;
   color: var(--pr-text-secondary);
-  margin: 1.25rem auto 2rem;
+  margin: 1.25rem auto 0;
   max-width: 460px;
+}
+
+.catchLine {
+  font-size: var(--pr-text-small);
+  font-style: italic;
+  color: var(--pr-text-muted);
+  margin: 0.75rem auto 2rem;
 }
 
 /* waitlist form */
