@@ -3,6 +3,7 @@ import type { Route } from "./+types/home";
 import { TextInput } from "@components/TextInput/TextInput";
 import { validateWaitlistInput } from "../domain/waitlist";
 import styles from "./home.module.css";
+import { Header } from "~/components/Header/Header";
 
 export function meta(_: Route.MetaArgs) {
   return [
@@ -34,7 +35,10 @@ export async function action({ request }: Route.ActionArgs) {
   } catch (e) {
     console.error(`[home#action] waitlist insert failed: ${e}`);
     return data(
-      { ok: false as const, error: "Something went wrong on our end. Try again in a minute." },
+      {
+        ok: false as const,
+        error: "Something went wrong on our end. Try again in a minute.",
+      },
       { status: 500 },
     );
   }
@@ -45,12 +49,7 @@ export async function action({ request }: Route.ActionArgs) {
 export default function Home(_: Route.ComponentProps) {
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <span className={styles.wordmark}>
-          purple<span className={styles.wordmarkAccent}>radish</span>
-        </span>
-      </header>
-
+      <Header />
       <main>
         <section className={styles.hero}>
           <span className={styles.badge}>Piloting soon in Ottawa</span>

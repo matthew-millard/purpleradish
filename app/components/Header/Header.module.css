@@ -1,0 +1,33 @@
+.header {
+  padding-block: 1.5rem;
+  border-bottom: 1px solid var(--pr-border-subtle);
+}
+
+.borderless {
+  border-bottom: none;
+}
+
+.inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.auth {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: var(--pr-text-small);
+}
+
+.authHint {
+  display: none;
+  font-family: var(--pr-font-sans);
+  color: var(--pr-text-secondary);
+}
+
+@media (min-width: 720px) {
+  .authHint {
+    display: inline;
+  }
+}

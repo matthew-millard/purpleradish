@@ -1,0 +1,11 @@
+.wordmark {
+  font-family: var(--pr-font-display);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--pr-text-primary);
+  letter-spacing: -0.5px;
+}
+
+.wordmarkAccent {
+  color: var(--pr-magenta-500);
+}
