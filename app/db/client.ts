@@ -1,0 +1,17 @@
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
+import * as schema from "./schema";
+
+let _db: ReturnType<typeof drizzle<typeof schema>> | null = null;
+
+export function getDb() {
+  if (_db) return _db;
+  const url = process.env.DATABASE_URL;
+  if (!url) {
+    throw new Error(
+      "DATABASE_URL is not set. Copy .env.example to .env and point it at a Postgres instance (Neon free tier works)."
+    );
+  }
+  _db = drizzle(postgres(url, { prepare: false }), { schema });
+  return _db;
+}

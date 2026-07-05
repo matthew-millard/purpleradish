@@ -1,0 +1,338 @@
+/* ==========================================================================
+   purpleradish design tokens · v1
+   ==========================================================================
+   Locked in the design session of July 2026.
+
+   The grammar (memorize this, ignore the rest):
+     magenta = act        (buttons, the one CTA, "needs you" signals)
+     green   = alive/done (live status, ready, success, selections)
+     everything else sits quietly on the lavender neutrals
+
+   Color budgets by surface tier:
+     LOUD    marketing pages   — magenta surfaces, duotone clash, mint/green
+                                 section backgrounds, highlighter marks
+     MEDIUM  default app UI    — tint pills, one magenta 500 moment per view
+     QUIET   operational UI    — ONE filled magenta + ONE filled green per
+                                 screen; all other signals demote to 6px
+                                 dots, outlines, or colored text
+
+   Dark mode roughly doubles perceived color loudness. The quiet budget is
+   mandatory in dark; some tokens are mode-asymmetric ON PURPOSE.
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Schibsted+Grotesk:ital,wght@0,400;0,500;1,400;1,500&family=Spline+Sans+Mono:wght@400;500&display=swap");
+
+:root {
+  /* ------------------------------------------------------------------
+     1. PRIMITIVES — raw ramps. Components should not read these
+        directly; consume the semantic layer below.
+     ------------------------------------------------------------------ */
+
+  /* Neutrals · lavender-tinted, warm-violet undertone.
+     This undertone (not pure gray) is what makes the system feel airy. */
+  --pr-neutral-0: #fdfcfe;
+  --pr-neutral-50: #f8f6fb;
+  --pr-neutral-100: #f0edf5;
+  --pr-neutral-150: #edeaf2; /* subtle borders / active nav in quiet tier */
+  --pr-neutral-200: #e5e1ec;
+  --pr-neutral-300: #cdc8d8;
+  --pr-neutral-400: #a7a2b3;
+  --pr-neutral-500: #7e7989;
+  --pr-neutral-600: #5e5a68;
+  --pr-neutral-700: #454150;
+  --pr-neutral-800: #2d2a35;
+  --pr-neutral-850: #26232e; /* dark surface-1 */
+  --pr-neutral-875: #211e28; /* dark quiet-tier card surface */
+  --pr-neutral-900: #1c1a21;
+  --pr-neutral-border-dark: #3a3644;
+
+  /* Magenta · radish skin. The brand. */
+  --pr-magenta-50: #fdf2f9;
+  --pr-magenta-100: #fce9f4;
+  --pr-magenta-200: #f8cbe5;
+  --pr-magenta-300: #f2a3d1;
+  --pr-magenta-400: #e96bb8;
+  --pr-magenta-450: #ea5cb1; /* dark-mode primary — brighter to avoid vibration */
+  --pr-magenta-500: #e0399e; /* THE brand moment. Once per view. */
+  --pr-magenta-600: #bc1f80; /* hover, and text-on-light emphasis */
+  --pr-magenta-700: #9c1568;
+  --pr-magenta-800: #821050;
+  --pr-magenta-900: #570a36; /* dark marketing surface (duotone hero) */
+  --pr-magenta-tint-dark: #5c0e3b; /* dark chip bg */
+  --pr-magenta-surface-dark: #3b0a25; /* dark tinted panel / on-primary(dark) */
+  --pr-magenta-glow-dark: #2e0f20; /* dark attention-row background */
+
+  /* Green · spring green, hue 125 sat 75. Leaves. */
+  --pr-green-50: #e9f9eb;
+  --pr-green-100: #cef3d1;
+  --pr-green-200: #9be4a1;
+  --pr-green-300: #74e27d;
+  --pr-green-400: #4de659; /* ELECTRIC. Dark surfaces ONLY. Never on light. */
+  --pr-green-500: #3cc347;
+  --pr-green-600: #26822e; /* green text on light surfaces */
+  --pr-green-700: #1b6521;
+  --pr-green-800: #134e18;
+  --pr-green-900: #0c370f;
+  --pr-green-tint-dark: #14401a; /* dark chip / active bg */
+
+  /* Support semantics · softened, rarely seen */
+  --pr-red-500: #e24b4a;
+  --pr-red-600: #a32d2d;
+  --pr-red-100: #fcebeb;
+  --pr-red-border: #e8c5c5;
+  --pr-amber-100: #faeeda;
+  --pr-amber-700: #854f0b;
+
+  /* ------------------------------------------------------------------
+     2. TYPOGRAPHY — three voices.
+        brand voice : Bricolage — headlines, names, feeling. >= 21px only.
+                      Weights 600/700; it loses its ink traps below that.
+        speaking    : Schibsted — everything the product says. < 21px.
+        data voice  : Spline Sans Mono — anything measured, counted,
+                      timed, or priced. Rule of thumb: if it changes when
+                      reality changes, it is mono.
+     ------------------------------------------------------------------ */
+  --pr-font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --pr-font-sans: "Schibsted Grotesk", system-ui, sans-serif;
+  --pr-font-mono: "Spline Sans Mono", ui-monospace, monospace;
+
+  /* The gap scale. Deliberately no 16/18/24. If a design wants 18px,
+     the content hasn't decided whether it's a 21 or a 14 yet. */
+  --pr-text-display: 42px; /* Bricolage 700, tracking -1.5px, lh 1.02 */
+  --pr-text-heading: 30px; /* Bricolage 600/700, tracking -1px, lh 1.1 */
+  --pr-text-subhead: 21px; /* Bricolage 600, lh 1.25 */
+  --pr-text-body: 14px; /* Schibsted 400, lh 1.65 */
+  --pr-text-small: 13px; /* Schibsted 400 */
+  --pr-text-caption: 12px; /* Schibsted 400 */
+  --pr-text-label: 12px; /* Schibsted 400, LOWERCASE, letter-spacing 2.5px */
+
+  --pr-tracking-display: -1.5px;
+  --pr-tracking-heading: -1px;
+  --pr-tracking-label: 2.5px;
+
+  /* Emphasis inside running text is NEVER bold. It is Schibsted italic
+     in var(--pr-emphasis). Bold is reserved for structurally bold
+     things: headings and totals. */
+  --pr-emphasis: var(--pr-magenta-600);
+
+  /* ------------------------------------------------------------------
+     3. RADIUS — the leaf cut.
+        Every element is rounded except the BOTTOM-LEFT corner, which
+        stays nearly sharp (the stem). Position never varies; the sharp
+        corner scales with the element.
+        Exceptions: radio buttons and toggle thumbs stay perfect
+        circles; tabs use the underline, no radius at all.
+     ------------------------------------------------------------------ */
+  --pr-radius-sm: 8px 8px 8px 1px; /* badges, chips, small controls */
+  --pr-radius-md: 10px 10px 10px 2px; /* buttons, inputs, selects */
+  --pr-radius-lg: 14px 14px 14px 3px; /* cards, alerts */
+  --pr-radius-xl: 16px 16px 16px 3px; /* page-level containers */
+  --pr-radius-toggle: 10px 10px 10px 3px; /* toggle track */
+  --pr-radius-round: 50%; /* radios, avatars, toggle thumbs, dots */
+
+  /* ------------------------------------------------------------------
+     4. SEMANTIC LAYER (light mode) — what components consume.
+     ------------------------------------------------------------------ */
+  --pr-surface-0: var(--pr-neutral-0); /* page */
+  --pr-surface-1: var(--pr-neutral-50); /* card / sidebar */
+  --pr-surface-2: var(--pr-neutral-100); /* inset panel */
+  --pr-surface-nav-active: var(--pr-neutral-150); /* nav = where you are,
+                                                     not alive: neutral */
+
+  --pr-border: var(--pr-neutral-200);
+  --pr-border-subtle: var(--pr-neutral-150);
+  --pr-border-strong: var(--pr-neutral-300);
+
+  --pr-text-primary: var(--pr-neutral-900);
+  --pr-text-secondary: var(--pr-neutral-600);
+  --pr-text-muted: var(--pr-neutral-400);
+
+  /* act */
+  --pr-action: var(--pr-magenta-500);
+  --pr-action-hover: var(--pr-magenta-600);
+  --pr-on-action: var(--pr-magenta-50);
+  --pr-action-text: var(--pr-magenta-600); /* text buttons, links */
+  --pr-attention-dot: var(--pr-magenta-500);
+  --pr-focus-ring: 0 0 0 3px var(--pr-magenta-100);
+  --pr-focus-border: var(--pr-magenta-500);
+
+  /* alive / done */
+  --pr-live: var(--pr-green-500); /* 6px dot */
+  --pr-live-text: var(--pr-green-600);
+  --pr-success-bg: var(--pr-green-100);
+  --pr-success-text: var(--pr-green-800);
+  --pr-selected-border: var(--pr-green-500);
+  --pr-selected-bg: var(--pr-green-50);
+
+  /* quiet status (in-progress etc: plain text, no pill) */
+  --pr-status-quiet: var(--pr-neutral-400);
+
+  /* danger / warning, used sparingly */
+  --pr-danger: var(--pr-red-500);
+  --pr-danger-text: var(--pr-red-600);
+  --pr-warning-bg: var(--pr-amber-100);
+  --pr-warning-text: var(--pr-amber-700);
+}
+
+/* --------------------------------------------------------------------
+   DARK MODE
+   Surfaces keep the lavender undertone (never pure black). Cards sit
+   LIGHTER than the page — the elevation flip. Primary brightens one
+   step and takes dark text. Electric green 400 is finally allowed.
+   -------------------------------------------------------------------- */
+[data-theme="dark"] {
+  --pr-surface-0: var(--pr-neutral-900);
+  --pr-surface-1: var(--pr-neutral-875); /* quiet-tier card */
+  --pr-surface-2: var(--pr-neutral-800);
+  --pr-surface-nav-active: var(--pr-neutral-800);
+
+  --pr-border: var(--pr-neutral-800);
+  --pr-border-subtle: var(--pr-neutral-800);
+  --pr-border-strong: var(--pr-neutral-border-dark);
+
+  --pr-text-primary: var(--pr-neutral-100);
+  --pr-text-secondary: var(--pr-neutral-400);
+  --pr-text-muted: var(--pr-neutral-500);
+
+  --pr-action: var(--pr-magenta-450);
+  --pr-action-hover: var(--pr-magenta-400);
+  --pr-on-action: var(--pr-magenta-surface-dark);
+  --pr-action-text: var(--pr-magenta-450);
+  --pr-attention-dot: var(--pr-magenta-450);
+  --pr-focus-ring: 0 0 0 3px var(--pr-magenta-tint-dark);
+  --pr-focus-border: var(--pr-magenta-450);
+
+  --pr-live: var(--pr-green-400); /* electric, earns it here */
+  --pr-live-text: var(--pr-green-400);
+  --pr-success-bg: var(--pr-green-400); /* Ready flips to a SOLID fill
+                                               in dark — the one loud pill */
+  --pr-success-text: var(--pr-green-900);
+  --pr-selected-border: var(--pr-green-400);
+  --pr-selected-bg: var(--pr-green-tint-dark);
+
+  --pr-status-quiet: var(--pr-neutral-500);
+}
+
+/* --------------------------------------------------------------------
+   BASE APPLICATION — optional starting point
+   -------------------------------------------------------------------- */
+body {
+  background: var(--pr-surface-0);
+  color: var(--pr-text-primary);
+  font-family: var(--pr-font-sans);
+  font-size: var(--pr-text-body);
+  line-height: 1.65;
+}
+
+h1,
+h2,
+.pr-display,
+.pr-heading {
+  font-family: var(--pr-font-display);
+  font-weight: 700;
+  letter-spacing: var(--pr-tracking-heading);
+  line-height: 1.1;
+}
+h1,
+.pr-display {
+  font-size: var(--pr-text-display);
+  letter-spacing: var(--pr-tracking-display);
+  line-height: 1.02;
+}
+h2,
+.pr-heading {
+  font-size: var(--pr-text-heading);
+}
+h3,
+.pr-subhead {
+  font-family: var(--pr-font-display);
+  font-weight: 600;
+  font-size: var(--pr-text-subhead);
+  line-height: 1.25;
+}
+
+/* data voice: prices, times, counts, IDs, anything measured */
+.pr-data {
+  font-family: var(--pr-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* lowercase tracked label — the signature label treatment */
+.pr-label {
+  font-size: var(--pr-text-label);
+  letter-spacing: var(--pr-tracking-label);
+  text-transform: lowercase;
+  color: var(--pr-text-muted);
+}
+
+/* emphasis inside running text — never bold */
+.pr-em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--pr-emphasis);
+}
+
+/* the one filled action per view */
+.pr-button-primary {
+  background: var(--pr-action);
+  color: var(--pr-on-action);
+  border: none;
+  border-radius: var(--pr-radius-md);
+  font-family: var(--pr-font-sans);
+  font-size: var(--pr-text-small);
+  font-weight: 500;
+  padding: 9px 18px;
+  cursor: pointer;
+}
+.pr-button-primary:hover {
+  background: var(--pr-action-hover);
+}
+
+.pr-button-secondary {
+  background: transparent;
+  color: var(--pr-text-secondary);
+  border: 1px solid var(--pr-border-strong);
+  border-radius: var(--pr-radius-md);
+  font-family: var(--pr-font-sans);
+  font-size: var(--pr-text-small);
+  padding: 9px 18px;
+  cursor: pointer;
+}
+
+.pr-input {
+  background: var(--pr-surface-0);
+  border: 1px solid var(--pr-border-strong);
+  border-radius: var(--pr-radius-md);
+  font-family: var(--pr-font-sans);
+  font-size: var(--pr-text-small);
+  color: var(--pr-text-primary);
+  padding: 9px 12px;
+}
+.pr-input:focus {
+  outline: none;
+  border-color: var(--pr-focus-border);
+  box-shadow: var(--pr-focus-ring);
+}
+
+.pr-card {
+  background: var(--pr-surface-1);
+  border-radius: var(--pr-radius-lg);
+  padding: 1rem 1.25rem;
+}
+
+/* 6px status dot — the quiet-tier signal */
+.pr-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--pr-radius-round);
+  display: inline-block;
+}
+.pr-dot--live {
+  background: var(--pr-live);
+}
+.pr-dot--attention {
+  background: var(--pr-attention-dot);
+}
+.pr-dot--danger {
+  background: var(--pr-danger);
+}

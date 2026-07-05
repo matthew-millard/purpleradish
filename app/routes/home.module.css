@@ -1,0 +1,213 @@
+/* Landing page — marketing surface, LOUD tier allowed (see docs/STYLE_GUIDE.md).
+   Still disciplined: one filled magenta action, green as highlighter + live dot. */
+
+.page {
+  min-height: 100vh;
+  background: var(--pr-surface-1);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  padding: 1.5rem 2rem;
+}
+
+.wordmark {
+  font-family: var(--pr-font-display);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--pr-text-primary);
+  letter-spacing: -0.5px;
+}
+
+.wordmarkAccent {
+  color: var(--pr-magenta-500);
+}
+
+.hero {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 4rem 2rem 3rem;
+  text-align: center;
+}
+
+.badge {
+  display: inline-block;
+  background: var(--pr-green-100);
+  color: var(--pr-green-800);
+  font-size: var(--pr-text-caption);
+  padding: 4px 12px;
+  border-radius: var(--pr-radius-sm);
+}
+
+.headline {
+  font-family: var(--pr-font-display);
+  font-size: var(--pr-text-display);
+  font-weight: 700;
+  letter-spacing: var(--pr-tracking-display);
+  line-height: 1.02;
+  color: var(--pr-text-primary);
+  margin: 1rem 0 0;
+}
+
+.headlineMark {
+  background: var(--pr-green-200);
+  color: var(--pr-green-800);
+  padding: 1px 8px;
+  border-radius: 6px;
+}
+
+.subhead {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--pr-text-secondary);
+  margin: 1.25rem auto 2rem;
+  max-width: 460px;
+}
+
+/* waitlist form */
+
+.form {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.input {
+  background: var(--pr-surface-0);
+  border: 1px solid var(--pr-border-strong);
+  border-radius: var(--pr-radius-md);
+  font-family: var(--pr-font-sans);
+  font-size: var(--pr-text-small);
+  color: var(--pr-text-primary);
+  padding: 10px 14px;
+  min-width: 260px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--pr-focus-border);
+  box-shadow: var(--pr-focus-ring);
+}
+
+.submit {
+  background: var(--pr-action);
+  color: var(--pr-on-action);
+  border: none;
+  border-radius: var(--pr-radius-md);
+  font-family: var(--pr-font-sans);
+  font-size: var(--pr-text-small);
+  font-weight: 500;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.submit:hover {
+  background: var(--pr-action-hover);
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.formError {
+  width: 100%;
+  font-size: var(--pr-text-caption);
+  color: var(--pr-danger-text);
+  margin: 4px 0 0;
+}
+
+.formSuccess {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--pr-text-small);
+  color: var(--pr-live-text);
+  font-weight: 500;
+}
+
+.liveDot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--pr-radius-round);
+  background: var(--pr-live);
+  display: inline-block;
+}
+
+/* value props */
+
+.props {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+
+@media (max-width: 720px) {
+  .props {
+    grid-template-columns: 1fr;
+  }
+}
+
+.prop {
+  background: var(--pr-surface-0);
+  border: 0.5px solid var(--pr-border);
+  border-radius: var(--pr-radius-lg);
+  padding: 1.25rem 1.25rem 1.35rem;
+}
+
+.propStat {
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--pr-text-primary);
+  letter-spacing: -1px;
+  margin: 0;
+  line-height: 1;
+}
+
+.propLabel {
+  font-size: var(--pr-text-label);
+  letter-spacing: var(--pr-tracking-label);
+  text-transform: lowercase;
+  color: var(--pr-text-muted);
+  margin: 6px 0 8px;
+}
+
+.propBody {
+  font-size: var(--pr-text-small);
+  line-height: 1.6;
+  color: var(--pr-text-secondary);
+  margin: 0;
+}
+
+/* footer */
+
+.footer {
+  margin-top: auto;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+.footerMark {
+  display: block;
+}
+
+.footerText {
+  font-size: var(--pr-text-caption);
+  color: var(--pr-text-muted);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
