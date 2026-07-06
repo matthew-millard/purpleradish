@@ -1,9 +1,11 @@
 import { data, useFetcher } from "react-router";
 import type { Route } from "./+types/home";
 import { TextInput } from "@components/TextInput/TextInput";
-import { validateWaitlistInput } from "../domain/waitlist";
+import { validateWaitlistInput } from "~/domain/waitlist";
 import styles from "./home.module.css";
-import { Header } from "~/components/Header/Header";
+import { Header } from "@components/Header/Header";
+import { StatCard } from "@components/StatCard/StatCard";
+import { stats } from "./home.data";
 
 export function meta(_: Route.MetaArgs) {
   return [
@@ -24,8 +26,8 @@ export async function action({ request }: Route.ActionArgs) {
     return data({ ok: false as const, error: parsed.error }, { status: 400 });
   }
 
-  const { getDb } = await import("../db/client");
-  const { waitlistSignups } = await import("../db/schema");
+  const { getDb } = await import("~/db/client");
+  const { waitlistSignups } = await import("~/db/schema");
 
   try {
     await getDb()
@@ -63,29 +65,9 @@ export default function Home(_: Route.ComponentProps) {
         </section>
 
         <section className={styles.props}>
-          <div className={styles.prop}>
-            <p className={`${styles.propStat} pr-data`}>38s</p>
-            <p className={styles.propLabel}>average order time</p>
-            <p className={styles.propBody}>
-              No menu scroll, no checkout flow. Regulars say what they want, wherever they already
-              are, and it lands in your kitchen.
-            </p>
-          </div>
-          <div className={styles.prop}>
-            <p className={`${styles.propStat} pr-data`}>Zero</p>
-            <p className={styles.propLabel}>new hardware</p>
-            <p className={styles.propBody}>
-              Orders flow straight into the POS you already run. Square first, more to follow.
-            </p>
-          </div>
-          <div className={styles.prop}>
-            <p className={`${styles.propStat} pr-data`}>1</p>
-            <p className={styles.propLabel}>live orders board</p>
-            <p className={styles.propBody}>
-              Every conversation, order, and ready-for-pickup in one quiet screen built for service
-              hours.
-            </p>
-          </div>
+          {stats.map((stat) => (
+            <StatCard key={stat.label} {...stat} />
+          ))}
         </section>
       </main>
 

@@ -1,0 +1,30 @@
+.card {
+  background: var(--pr-surface-0);
+  border: 0.5px solid var(--pr-border);
+  border-radius: var(--pr-radius-lg);
+  padding: 1.25rem 1.25rem 1.35rem;
+}
+
+.stat {
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--pr-text-primary);
+  letter-spacing: -1px;
+  margin: 0;
+  line-height: 1;
+}
+
+.label {
+  font-size: var(--pr-text-label);
+  letter-spacing: var(--pr-tracking-label);
+  text-transform: lowercase;
+  color: var(--pr-text-muted);
+  margin: 6px 0 8px;
+}
+
+.body {
+  font-size: var(--pr-text-small);
+  line-height: 1.6;
+  color: var(--pr-text-secondary);
+  margin: 0;
+}
