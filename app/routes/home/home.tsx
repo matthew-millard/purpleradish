@@ -7,6 +7,7 @@ import { Header } from "@components/Header/Header";
 import { StatCard } from "@components/StatCard/StatCard";
 import { stats } from "./home.data";
 import { Badge } from "@components/Badge/Badge";
+import { SubmitButton } from "@components/SubmitButton/SubmitButton";
 
 export function meta(_: Route.MetaArgs) {
   return [
@@ -110,9 +111,9 @@ function WaitlistForm() {
         className={styles.emailInput}
         autoComplete="email"
       />
-      <button type="submit" className={styles.submit} disabled={submitting}>
-        {submitting ? "Joining…" : "Join the waitlist"}
-      </button>
+      <SubmitButton disabled={submitting} pendingChildren="Joining…">
+        Join waitlist
+      </SubmitButton>
       {result && !result.ok ? (
         <p className={styles.formError} role="alert">
           {result.error}
