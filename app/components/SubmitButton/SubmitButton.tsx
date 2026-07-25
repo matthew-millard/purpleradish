@@ -9,8 +9,12 @@ const SubmitButton = ({ className, children, pendingChildren, disabled, ...props
   const isPending = Boolean(disabled);
   return (
     <button type="submit" className={cx(styles.submit, className)} disabled={disabled} {...props}>
-      <span className={cx(!isPending && styles.hidden)}>{pendingChildren}</span>
-      <span className={cx(isPending && styles.hidden)}>{children}</span>
+      <span className={cx(!isPending && styles.hidden)} aria-hidden={!isPending}>
+        {pendingChildren}
+      </span>
+      <span className={cx(isPending && styles.hidden)} aria-hidden={isPending}>
+        {children}
+      </span>
     </button>
   );
 };
