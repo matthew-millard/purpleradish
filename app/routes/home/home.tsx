@@ -97,6 +97,8 @@ function WaitlistForm() {
     );
   }
 
+  const error = result?.error;
+
   return (
     <fetcher.Form method="post" className={styles.form}>
       <label className={styles.srOnly} htmlFor="email">
@@ -114,9 +116,9 @@ function WaitlistForm() {
       <SubmitButton disabled={submitting} pendingChildren="Joining…">
         Join waitlist
       </SubmitButton>
-      {result && !result.ok ? (
+      {error ? (
         <p className={styles.formError} role="alert">
-          {result.error}
+          {error}
         </p>
       ) : null}
     </fetcher.Form>

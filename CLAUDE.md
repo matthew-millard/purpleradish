@@ -10,6 +10,7 @@ Conversational ordering layer for restaurants. POS-agnostic: customers order via
 - **Styling:** `app/styles/tokens.css` (the design system source of truth) + CSS Modules. **No Tailwind. No styled-components. No inline style objects for anything reusable.**
 - **Components:** Base UI (`@base-ui/react`) primitives for anything with behavior (dialog, select, combobox, menu, toast, tooltip). Simple components (button, badge, card, input) are hand-rolled on tokens.
 - **Errors at boundaries:** `neverthrow` `Result<T, E>` for adapter and service returns. Never swallow an exception; log with `[Adapter#method]` context and return `err(...)`.
+- **Validation:** Zod schemas for form/input validation in `app/domain/`. No hand-rolled regex/type-guard validation for new code.
 - **Background work / webhooks:** Inngest (Twilio + Square webhooks land in Inngest functions; retries and delays live there, not in hand-rolled code).
 - **Realtime:** SSE from a React Router resource route for the live orders board. No WebSockets unless SSE demonstrably fails.
 - **AI:** Claude API with tool use. Tools mirror the heard-chef MCP surface: `get_menu`, `place_order`, `track_order`.
