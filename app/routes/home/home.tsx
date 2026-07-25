@@ -6,6 +6,7 @@ import styles from "./home.module.css";
 import { Header } from "@components/Header/Header";
 import { StatCard } from "@components/StatCard/StatCard";
 import { stats } from "./home.data";
+import { Badge } from "@components/Badge/Badge";
 
 export function meta(_: Route.MetaArgs) {
   return [
@@ -54,7 +55,7 @@ export default function Home(_: Route.ComponentProps) {
       <Header />
       <main>
         <section className={styles.hero}>
-          <span className={styles.badge}>Piloting soon in Ottawa</span>
+          <Badge label="Piloting soon in Ottawa" />
           <h1 className={styles.headline}>No commissions. No app. No new hardware.</h1>
           <p className={styles.subhead}>
             Let your customers order right from WhatsApp, ChatGPT, Siri, or Claude and the order
