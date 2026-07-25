@@ -1,0 +1,29 @@
+.submit {
+  background: var(--pr-action);
+  color: var(--pr-on-action);
+  border: none;
+  border-radius: var(--pr-radius-md);
+  font-family: var(--pr-font-sans);
+  font-size: var(--pr-text-small);
+  font-weight: 500;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: grid;
+}
+
+.submit > * {
+  grid-area: 1 / 1;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.submit:hover {
+  background: var(--pr-action-hover);
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
