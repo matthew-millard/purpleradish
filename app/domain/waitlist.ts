@@ -1,25 +1,27 @@
+import { z } from "zod";
+
 export type WaitlistInput = {
   email: string;
 };
 
 export type WaitlistValidation = { ok: true; value: WaitlistInput } | { ok: false; error: string };
 
-// Deliberately loose: real validation is the confirmation email, not a regex.
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const MAX_EMAIL_LENGTH = 254;
+const emailSchema = z
+  .email({ message: "Invalid email address format." })
+  .max(254, { message: "Email address cannot exceed 254 characters." });
 
-export function validateWaitlistInput(form: FormData): WaitlistValidation {
-  const raw = form.get("email");
+export function validateWaitlistInput(formData: FormData): WaitlistValidation {
+  const raw = formData.get("email");
 
   if (typeof raw !== "string" || raw.trim() === "") {
     return { ok: false, error: "Enter your email address." };
   }
 
-  const email = raw.trim().toLowerCase();
+  const result = emailSchema.safeParse(raw);
 
-  if (email.length > MAX_EMAIL_LENGTH || !EMAIL_PATTERN.test(email)) {
-    return { ok: false, error: "That doesn't look like a valid email address." };
+  if (!result.success) {
+    return { ok: false, error: result.error.issues[0].message };
   }
 
-  return { ok: true, value: { email } };
+  return { ok: true, value: { email: result.data } };
 }
