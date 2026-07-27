@@ -8,6 +8,7 @@ import { StatCard } from "@components/StatCard/StatCard";
 import { stats } from "./home.data";
 import { Badge } from "@components/Badge/Badge";
 import { SubmitButton } from "@components/SubmitButton/SubmitButton";
+import { FieldError } from "@components/FieldError/FieldError";
 
 export function meta(_: Route.MetaArgs) {
   return [
@@ -100,7 +101,7 @@ function WaitlistForm() {
   const error = result?.error;
 
   return (
-    <fetcher.Form method="post" className={styles.form}>
+    <fetcher.Form method="post" className={styles.form} noValidate>
       <label className={styles.srOnly} htmlFor="email">
         Email address
       </label>
@@ -116,11 +117,7 @@ function WaitlistForm() {
       <SubmitButton disabled={submitting} pendingChildren="Joining…">
         Join waitlist
       </SubmitButton>
-      {error ? (
-        <p className={styles.formError} role="alert">
-          {error}
-        </p>
-      ) : null}
+      <FieldError error={error} />
     </fetcher.Form>
   );
 }
