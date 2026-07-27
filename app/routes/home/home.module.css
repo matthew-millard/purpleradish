@@ -60,13 +60,6 @@
   min-width: 260px;
 }
 
-.formError {
-  width: 100%;
-  font-size: var(--pr-text-caption);
-  color: var(--pr-danger-text);
-  margin: 4px 0 0;
-}
-
 .formSuccess {
   display: inline-flex;
   align-items: center;
