@@ -9,6 +9,7 @@ import { stats } from "./home.data";
 import { Badge } from "@components/Badge/Badge";
 import { SubmitButton } from "@components/SubmitButton/SubmitButton";
 import { FieldError } from "@components/FieldError/FieldError";
+import { FieldLabel } from "@components/FieldLabel/FieldLabel";
 
 export function meta(_: Route.MetaArgs) {
   return [
@@ -102,9 +103,9 @@ function WaitlistForm() {
 
   return (
     <fetcher.Form method="post" className={styles.form} noValidate>
-      <label className={styles.srOnly} htmlFor="email">
+      <FieldLabel htmlFor="email" visuallyHidden>
         Email address
-      </label>
+      </FieldLabel>
       <TextInput
         id="email"
         name="email"
