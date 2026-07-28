@@ -10,7 +10,7 @@ interface Props {
 const Header = ({ borderless = false }: Props) => {
   return (
     <header className={cx(styles.header, borderless && styles.borderless)}>
-      <div className={cx("pr-container", styles.inner)}>
+      <div className={cx("container", styles.inner)}>
         <Logo />
         <div className={styles.auth}>
           <span className={styles.authHint}>Already running service?</span>
