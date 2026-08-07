@@ -10,6 +10,7 @@ import { Badge } from "@components/Badge/Badge";
 import { SubmitButton } from "@components/SubmitButton/SubmitButton";
 import { FieldError } from "@components/FieldError/FieldError";
 import { FieldLabel } from "@components/FieldLabel/FieldLabel";
+import { useDelayedPending } from "~/hooks/useDelayedPending";
 
 export function meta(_: Route.MetaArgs) {
   return [
@@ -88,6 +89,7 @@ export default function Home(_: Route.ComponentProps) {
 function WaitlistForm() {
   const fetcher = useFetcher<typeof action>();
   const submitting = fetcher.state !== "idle";
+  const pending = useDelayedPending(submitting);
   const result = fetcher.data;
 
   if (result?.ok) {
@@ -115,7 +117,7 @@ function WaitlistForm() {
         className={styles.emailInput}
         autoComplete="email"
       />
-      <SubmitButton disabled={submitting} pendingChildren="Joining…">
+      <SubmitButton disabled={submitting} pending={pending} pendingChildren="Joining…">
         Join waitlist
       </SubmitButton>
       <FieldError error={error} />
