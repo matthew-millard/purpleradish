@@ -85,7 +85,8 @@ with no destructive migration.
 
 ### Password hashing
 
-- Use **bcrypt** (`bcrypt` node package). New dependency.
+- Use **bcrypt** via the `bcryptjs` package (pure-JS, no native build, so it
+  builds cleanly on the Alpine Docker image). New dependency.
 - Never log the password or hash. Hashing lives in a service under `app/domain/`
   or `app/services/`, not in the route.
 
@@ -167,7 +168,7 @@ adding/removing nodes (known layout-shift preference).
 
 ## New dependencies / env
 
-- `bcrypt` (+ `@types/bcrypt`) for password hashing.
+- `bcryptjs` for password hashing (ships its own types).
 - `@conform-to/react` + `@conform-to/zod` for forms.
 - `resend` for transactional email (verification). Add `RESEND_API_KEY` env var.
 - `SESSION_SECRET` env var, documented in `.env.example` the moment it is introduced.

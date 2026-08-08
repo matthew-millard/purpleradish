@@ -13,6 +13,8 @@
       "@components/*": ["./app/components/*"],
       "@routes/*": ["./app/routes/*"],
       "@db/*": ["./app/db/*"],
+      "@auth/*": ["./app/auth/*"],
+      "@domain/*": ["./app/domain/*"],
       "@tests/*": ["./tests/*"]
     },
     "esModuleInterop": true,
