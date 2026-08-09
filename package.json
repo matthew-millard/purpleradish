@@ -23,6 +23,8 @@
     "@conform-to/zod": "^1.20.2",
     "@react-router/node": "8.1.0",
     "@react-router/serve": "8.1.0",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.1",
     "bcryptjs": "^3.0.3",
     "drizzle-kit": "^0.31.10",
     "drizzle-orm": "^0.45.2",

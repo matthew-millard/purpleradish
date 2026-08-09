@@ -11,6 +11,7 @@ import { createAccount, findUserByEmail } from "@domain/account.server";
 import { normalizeEmail } from "@domain/email";
 import { sendVerificationEmail } from "@domain/email.server";
 import { HONEYPOT_FIELD, signupSchema } from "@domain/signup";
+import { checkSignupRateLimit } from "@domain/rateLimit.server";
 import { issueVerificationToken } from "@domain/verification.server";
 import { useDelayedPending } from "~/hooks/useDelayedPending";
 import type { Route } from "./+types/signup";
@@ -28,6 +29,15 @@ export async function loader({ request }: Route.LoaderArgs) {
 export async function action({ request }: Route.ActionArgs) {
   await requireAnonymous(request);
   const formData = await request.formData();
+
+  const { allowed } = await checkSignupRateLimit(request);
+  if (!allowed) {
+    const submission = parseWithZod(formData, { schema: signupSchema });
+    return data(
+      submission.reply({ formErrors: ["Too many sign-up attempts. Try again in an hour."] }),
+      { status: 429 },
+    );
+  }
 
   const submission = await parseWithZod(formData, {
     async: true,
