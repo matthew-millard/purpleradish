@@ -4,7 +4,7 @@ import { getDb } from "@db/client";
 import { emailVerificationTokens, users } from "@db/schema";
 
 const TOKEN_BYTES = 32;
-const TOKEN_TTL_MS = 1000 * 60 * 60 * 24; // 24 hours
+const TOKEN_TTL_MS = 1000 * 60 * 60 * 72; // 72 hours
 
 export function generateToken(): string {
   return randomBytes(TOKEN_BYTES).toString("base64url");

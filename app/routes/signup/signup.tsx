@@ -61,17 +61,13 @@ export async function action({ request }: Route.ActionArgs) {
 
   try {
     const token = await issueVerificationToken(userId);
-    const verifyUrl = new URL(
-      `/verify?token=${token}`,
-      process.env.APP_URL ?? request.url,
-    ).toString();
+    const baseUrl = process.env.APP_URL?.trim() || request.url;
+    const verifyUrl = new URL(`/verify?token=${token}`, baseUrl).toString();
     await sendVerificationEmail(normalizedEmail, verifyUrl);
   } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    } else {
-      console.error(`[signup#action] verification email failed for ${userId}: ${error}`);
-    }
+    // Sign-up must not fail on a verification-email error: the account and
+    // session already exist. Log and continue. TODO: report to Sentry.
+    console.error(`[signup#action] verification email failed for user ${userId}:`, error);
   }
 
   return createUserSession(userId, "/dashboard");
