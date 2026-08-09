@@ -1,14 +1,10 @@
-import { z } from "zod";
+import { emailSchema } from "@domain/email";
 
 export type WaitlistInput = {
   email: string;
 };
 
 export type WaitlistValidation = { ok: true; value: WaitlistInput } | { ok: false; error: string };
-
-const emailSchema = z
-  .email({ message: "Invalid email address format." })
-  .max(254, { message: "Email address cannot exceed 254 characters." });
 
 export function validateWaitlistInput(formData: FormData): WaitlistValidation {
   const raw = formData.get("email");

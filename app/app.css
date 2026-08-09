@@ -47,3 +47,13 @@ a:focus-visible {
   overflow: hidden;
   clip: rect(0 0 0 0);
 }
+
+/* honeypot: hidden from everyone including assistive tech (pair with aria-hidden + tabIndex=-1) */
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

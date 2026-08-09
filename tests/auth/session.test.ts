@@ -1,4 +1,10 @@
-import { createUserSession, getUserId, logout, requireUserId } from "@auth/session.server";
+import {
+  createUserSession,
+  getUserId,
+  logout,
+  requireAnonymous,
+  requireUserId,
+} from "@auth/session.server";
 import { describe, expect, it } from "vitest";
 
 function requestWithCookie(setCookie: string): Request {
@@ -41,6 +47,28 @@ describe("session helpers", () => {
       const location = response.headers.get("Location")!;
       expect(location).toContain("/login");
       expect(location).toContain("redirectTo=%2Fdashboard");
+    }
+  });
+
+  it("requireAnonymous returns for a request with no session", async () => {
+    await expect(requireAnonymous(new Request("http://localhost/signup"))).resolves.toBeUndefined();
+  });
+
+  it("requireAnonymous redirects to the dashboard when a session exists", async () => {
+    const created = await createUserSession("user-123", "/dashboard");
+    const setCookie = created.headers.get("Set-Cookie")!;
+    const request = new Request("http://localhost/signup", {
+      headers: { Cookie: setCookie.split(";")[0] },
+    });
+
+    try {
+      await requireAnonymous(request);
+      expect.unreachable("requireAnonymous should have thrown a redirect");
+    } catch (thrown) {
+      expect(thrown).toBeInstanceOf(Response);
+      const response = thrown as Response;
+      expect(response.status).toBe(302);
+      expect(response.headers.get("Location")).toBe("/dashboard");
     }
   });
 

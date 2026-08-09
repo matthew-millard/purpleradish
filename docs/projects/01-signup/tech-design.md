@@ -107,8 +107,11 @@ with no destructive migration.
 
 - Login failure returns one generic "invalid email or password" regardless of
   whether the email exists.
-- Sign-up with an existing email: return a neutral message; do not confirm the
-  address is registered beyond what is unavoidable.
+- Sign-up with an existing email: returns an explicit "Email is already in use."
+  on the email field. Enumeration hardening is not attempted here: sign-up
+  inevitably reveals whether an address exists, so a neutral message would only
+  confuse real users for no security gain. Login (below) can and does stay
+  neutral, since there the ambiguity is meaningful.
 
 ## Forms & validation
 
