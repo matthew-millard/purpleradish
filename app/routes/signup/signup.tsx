@@ -9,7 +9,9 @@ import { SubmitButton } from "@components/SubmitButton/SubmitButton";
 import { TextInput } from "@components/TextInput/TextInput";
 import { createAccount, findUserByEmail } from "@domain/account.server";
 import { normalizeEmail } from "@domain/email";
+import { sendVerificationEmail } from "@domain/email.server";
 import { HONEYPOT_FIELD, signupSchema } from "@domain/signup";
+import { issueVerificationToken } from "@domain/verification.server";
 import { useDelayedPending } from "~/hooks/useDelayedPending";
 import type { Route } from "./+types/signup";
 import styles from "./signup.module.css";
@@ -50,11 +52,23 @@ export async function action({ request }: Route.ActionArgs) {
   }
 
   const { businessName, email, password } = submission.value;
+  const normalizedEmail = normalizeEmail(email);
   const { userId } = await createAccount({
     businessName,
-    email: normalizeEmail(email),
+    email: normalizedEmail,
     password,
   });
+
+  try {
+    const token = await issueVerificationToken(userId);
+    const baseUrl = process.env.APP_URL?.trim() || request.url;
+    const verifyUrl = new URL(`/verify?token=${token}`, baseUrl).toString();
+    await sendVerificationEmail(normalizedEmail, verifyUrl);
+  } catch (error) {
+    // Sign-up must not fail on a verification-email error: the account and
+    // session already exist. Log and continue. TODO: report to Sentry.
+    console.error(`[signup#action] verification email failed for user ${userId}:`, error);
+  }
 
   return createUserSession(userId, "/dashboard");
 }
