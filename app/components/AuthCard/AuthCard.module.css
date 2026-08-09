@@ -1,0 +1,8 @@
+.card {
+  width: 100%;
+  max-width: 400px;
+  padding: 32px;
+  background: var(--pr-surface-1);
+  border: 1px solid var(--pr-border);
+  border-radius: var(--pr-radius-xl);
+}

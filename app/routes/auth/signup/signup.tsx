@@ -3,6 +3,7 @@ import { parseWithZod } from "@conform-to/zod/v4";
 import { data, Form, useNavigation } from "react-router";
 import { z } from "zod";
 import { createUserSession, requireAnonymous } from "@auth/session.server";
+import { AuthCard } from "@components/AuthCard/AuthCard";
 import { FieldError } from "@components/FieldError/FieldError";
 import { FieldLabel } from "@components/FieldLabel/FieldLabel";
 import { SubmitButton } from "@components/SubmitButton/SubmitButton";
@@ -98,7 +99,7 @@ export default function Signup({ actionData }: Route.ComponentProps) {
   });
 
   return (
-    <>
+    <AuthCard>
       <h1 className={styles.heading}>Create your account</h1>
 
       <Form method="post" {...getFormProps(form)} className={styles.form} noValidate>
@@ -147,6 +148,6 @@ export default function Signup({ actionData }: Route.ComponentProps) {
           Create account
         </SubmitButton>
       </Form>
-    </>
+    </AuthCard>
   );
 }
