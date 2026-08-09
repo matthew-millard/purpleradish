@@ -3,6 +3,7 @@ import { parseWithZod } from "@conform-to/zod/v4";
 import { data, Form, useNavigation } from "react-router";
 import { z } from "zod";
 import { createUserSession, requireAnonymous } from "@auth/session.server";
+import { AuthCard } from "@components/AuthCard/AuthCard";
 import { FieldError } from "@components/FieldError/FieldError";
 import { FieldLabel } from "@components/FieldLabel/FieldLabel";
 import { SubmitButton } from "@components/SubmitButton/SubmitButton";
@@ -98,57 +99,55 @@ export default function Signup({ actionData }: Route.ComponentProps) {
   });
 
   return (
-    <main className={styles.page}>
-      <div className={styles.card}>
-        <h1 className={styles.heading}>Create your account</h1>
+    <AuthCard>
+      <h1 className={styles.heading}>Create your account</h1>
 
-        <Form method="post" {...getFormProps(form)} className={styles.form} noValidate>
-          <div className={styles.field}>
-            <FieldLabel htmlFor={fields.businessName.id}>Business name</FieldLabel>
-            <TextInput
-              {...getInputProps(fields.businessName, { type: "text" })}
-              autoComplete="organization"
-              placeholder="Heartbreakers Pizza"
-            />
-            <FieldError error={fields.businessName.errors?.[0]} />
-          </div>
+      <Form method="post" {...getFormProps(form)} className={styles.form} noValidate>
+        <div className={styles.field}>
+          <FieldLabel htmlFor={fields.businessName.id}>Business name</FieldLabel>
+          <TextInput
+            {...getInputProps(fields.businessName, { type: "text" })}
+            autoComplete="organization"
+            placeholder="Heartbreakers Pizza"
+          />
+          <FieldError error={fields.businessName.errors?.[0]} />
+        </div>
 
-          <div className={styles.field}>
-            <FieldLabel htmlFor={fields.email.id}>Email</FieldLabel>
-            <TextInput
-              {...getInputProps(fields.email, { type: "email" })}
-              autoComplete="email"
-              placeholder="you@yourrestaurant.com"
-            />
-            <FieldError error={fields.email.errors?.[0]} />
-          </div>
+        <div className={styles.field}>
+          <FieldLabel htmlFor={fields.email.id}>Email</FieldLabel>
+          <TextInput
+            {...getInputProps(fields.email, { type: "email" })}
+            autoComplete="email"
+            placeholder="you@yourrestaurant.com"
+          />
+          <FieldError error={fields.email.errors?.[0]} />
+        </div>
 
-          <div className={styles.field}>
-            <FieldLabel htmlFor={fields.password.id}>Password</FieldLabel>
-            <TextInput
-              {...getInputProps(fields.password, { type: "password" })}
-              autoComplete="new-password"
-              placeholder="At least 8 characters"
-            />
-            <FieldError error={fields.password.errors?.[0]} />
-          </div>
+        <div className={styles.field}>
+          <FieldLabel htmlFor={fields.password.id}>Password</FieldLabel>
+          <TextInput
+            {...getInputProps(fields.password, { type: "password" })}
+            autoComplete="new-password"
+            placeholder="At least 8 characters"
+          />
+          <FieldError error={fields.password.errors?.[0]} />
+        </div>
 
-          <div className="honeypot" aria-hidden="true">
-            <label htmlFor={fields[HONEYPOT_FIELD].id}>Company</label>
-            <input
-              {...getInputProps(fields[HONEYPOT_FIELD], { type: "text" })}
-              tabIndex={-1}
-              autoComplete="off"
-            />
-          </div>
+        <div className="honeypot" aria-hidden="true">
+          <label htmlFor={fields[HONEYPOT_FIELD].id}>Company</label>
+          <input
+            {...getInputProps(fields[HONEYPOT_FIELD], { type: "text" })}
+            tabIndex={-1}
+            autoComplete="off"
+          />
+        </div>
 
-          <FieldError error={form.errors?.[0]} />
+        <FieldError error={form.errors?.[0]} />
 
-          <SubmitButton disabled={submitting} pending={pending} pendingChildren="Creating…">
-            Create account
-          </SubmitButton>
-        </Form>
-      </div>
-    </main>
+        <SubmitButton disabled={submitting} pending={pending} pendingChildren="Creating…">
+          Create account
+        </SubmitButton>
+      </Form>
+    </AuthCard>
   );
 }
