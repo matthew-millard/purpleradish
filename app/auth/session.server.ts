@@ -46,6 +46,13 @@ export async function requireUserId(
   return userId;
 }
 
+export async function requireAnonymous(request: Request, redirectTo = "/dashboard"): Promise<void> {
+  const userId = await getUserId(request);
+  if (userId) {
+    throw redirect(redirectTo);
+  }
+}
+
 export async function createUserSession(userId: string, redirectTo: string): Promise<Response> {
   const session = await storage.getSession();
   session.set(USER_ID_KEY, userId);
