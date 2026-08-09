@@ -2,22 +2,10 @@ import { Resend } from "resend";
 
 const FROM = "purpleradish <no-reply@notifications.purpleradish.io>";
 
-let _resend: Resend | null = null;
-
-function getResend(): Resend {
-  if (_resend) return _resend;
-  const key = process.env.RESEND_API_KEY;
-  if (!key) {
-    throw new Error(
-      "RESEND_API_KEY is not set. Copy .env.example to .env and add a Resend API key.",
-    );
-  }
-  _resend = new Resend(key);
-  return _resend;
-}
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendVerificationEmail(to: string, verifyUrl: string): Promise<void> {
-  const { error } = await getResend().emails.send({
+  const { error } = await resend.emails.send({
     from: FROM,
     to: [to],
     subject: "Confirm your email for purpleradish",
