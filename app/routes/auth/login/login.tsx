@@ -67,37 +67,35 @@ export default function Login({ actionData }: Route.ComponentProps) {
   });
 
   return (
-    <main className={styles.page}>
-      <div className={styles.card}>
-        <h1 className={styles.heading}>Log in</h1>
+    <>
+      <h1 className={styles.heading}>Log in</h1>
 
-        <Form method="post" {...getFormProps(form)} className={styles.form} noValidate>
-          <div className={styles.field}>
-            <FieldLabel htmlFor={fields.email.id}>Email</FieldLabel>
-            <TextInput
-              {...getInputProps(fields.email, { type: "email" })}
-              autoComplete="email"
-              placeholder="you@yourrestaurant.com"
-            />
-            <FieldError error={fields.email.errors?.[0]} />
-          </div>
+      <Form method="post" {...getFormProps(form)} className={styles.form} noValidate>
+        <div className={styles.field}>
+          <FieldLabel htmlFor={fields.email.id}>Email</FieldLabel>
+          <TextInput
+            {...getInputProps(fields.email, { type: "email" })}
+            autoComplete="email"
+            placeholder="you@yourrestaurant.com"
+          />
+          <FieldError error={fields.email.errors?.[0]} />
+        </div>
 
-          <div className={styles.field}>
-            <FieldLabel htmlFor={fields.password.id}>Password</FieldLabel>
-            <TextInput
-              {...getInputProps(fields.password, { type: "password" })}
-              autoComplete="current-password"
-            />
-            <FieldError error={fields.password.errors?.[0]} />
-          </div>
+        <div className={styles.field}>
+          <FieldLabel htmlFor={fields.password.id}>Password</FieldLabel>
+          <TextInput
+            {...getInputProps(fields.password, { type: "password" })}
+            autoComplete="current-password"
+          />
+          <FieldError error={fields.password.errors?.[0]} />
+        </div>
 
-          <FieldError error={form.errors?.[0]} />
+        <FieldError error={form.errors?.[0]} />
 
-          <SubmitButton disabled={submitting} pending={pending} pendingChildren="Logging in…">
-            Log in
-          </SubmitButton>
-        </Form>
-      </div>
-    </main>
+        <SubmitButton disabled={submitting} pending={pending} pendingChildren="Logging in…">
+          Log in
+        </SubmitButton>
+      </Form>
+    </>
   );
 }

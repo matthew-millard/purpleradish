@@ -14,20 +14,3 @@
   border: 1px solid var(--pr-border);
   border-radius: var(--pr-radius-xl);
 }
-
-.heading {
-  font-size: var(--pr-text-heading);
-  margin: 0 0 24px;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
