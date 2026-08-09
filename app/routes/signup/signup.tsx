@@ -9,7 +9,9 @@ import { SubmitButton } from "@components/SubmitButton/SubmitButton";
 import { TextInput } from "@components/TextInput/TextInput";
 import { createAccount, findUserByEmail } from "@domain/account.server";
 import { normalizeEmail } from "@domain/email";
+import { sendVerificationEmail } from "@domain/email.server";
 import { HONEYPOT_FIELD, signupSchema } from "@domain/signup";
+import { issueVerificationToken } from "@domain/verification.server";
 import { useDelayedPending } from "~/hooks/useDelayedPending";
 import type { Route } from "./+types/signup";
 import styles from "./signup.module.css";
@@ -50,11 +52,27 @@ export async function action({ request }: Route.ActionArgs) {
   }
 
   const { businessName, email, password } = submission.value;
+  const normalizedEmail = normalizeEmail(email);
   const { userId } = await createAccount({
     businessName,
-    email: normalizeEmail(email),
+    email: normalizedEmail,
     password,
   });
+
+  try {
+    const token = await issueVerificationToken(userId);
+    const verifyUrl = new URL(
+      `/verify?token=${token}`,
+      process.env.APP_URL ?? request.url,
+    ).toString();
+    await sendVerificationEmail(normalizedEmail, verifyUrl);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error(`[signup#action] verification email failed for ${userId}: ${error}`);
+    }
+  }
 
   return createUserSession(userId, "/dashboard");
 }
