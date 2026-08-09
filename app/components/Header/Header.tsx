@@ -14,8 +14,8 @@ const Header = ({ borderless = false }: Props) => {
         <Logo />
         <div className={styles.auth}>
           <span className={styles.authHint}>Already running service?</span>
-          <Link to="/sign-in" prefetch="intent">
-            Sign in
+          <Link to="/login" prefetch="intent">
+            Log in
           </Link>
         </div>
       </div>
