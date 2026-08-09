@@ -1,16 +1,9 @@
-import { data, useFetcher } from "react-router";
 import type { Route } from "./+types/home";
-import { TextInput } from "@components/TextInput/TextInput";
-import { validateWaitlistInput } from "~/domain/waitlist";
 import styles from "./home.module.css";
 import { Header } from "@components/Header/Header";
 import { StatCard } from "@components/StatCard/StatCard";
 import { stats } from "./home.data";
 import { Badge } from "@components/Badge/Badge";
-import { SubmitButton } from "@components/SubmitButton/SubmitButton";
-import { FieldError } from "@components/FieldError/FieldError";
-import { FieldLabel } from "@components/FieldLabel/FieldLabel";
-import { useDelayedPending } from "~/hooks/useDelayedPending";
 
 export function meta(_: Route.MetaArgs) {
   return [
@@ -21,36 +14,6 @@ export function meta(_: Route.MetaArgs) {
         "Let your customers order right from WhatsApp, ChatGPT, Siri, or Claude and the order lands in the POS you already run. No commissions, no app, no new hardware.",
     },
   ];
-}
-
-export async function action({ request }: Route.ActionArgs) {
-  const form = await request.formData();
-  const parsed = validateWaitlistInput(form);
-
-  if (!parsed.ok) {
-    return data({ ok: false as const, error: parsed.error }, { status: 400 });
-  }
-
-  const { getDb } = await import("~/db/client");
-  const { waitlistSignups } = await import("~/db/schema");
-
-  try {
-    await getDb()
-      .insert(waitlistSignups)
-      .values(parsed.value)
-      .onConflictDoNothing({ target: waitlistSignups.email });
-  } catch (e) {
-    console.error(`[home#action] waitlist insert failed: ${e}`);
-    return data(
-      {
-        ok: false as const,
-        error: "Something went wrong on our end. Try again in a minute.",
-      },
-      { status: 500 },
-    );
-  }
-
-  return { ok: true as const };
 }
 
 export default function Home(_: Route.ComponentProps) {
@@ -66,7 +29,6 @@ export default function Home(_: Route.ComponentProps) {
             lands in the POS you already run.
           </p>
           <p className={styles.catchLine}>Built by the industry, for the industry.</p>
-          <WaitlistForm />
         </section>
 
         <section className={styles.props}>
@@ -83,44 +45,5 @@ export default function Home(_: Route.ComponentProps) {
         </span>
       </footer>
     </div>
-  );
-}
-
-function WaitlistForm() {
-  const fetcher = useFetcher<typeof action>();
-  const submitting = fetcher.state !== "idle";
-  const pending = useDelayedPending(submitting);
-  const result = fetcher.data;
-
-  if (result?.ok) {
-    return (
-      <p className={styles.formSuccess} role="status">
-        <span className={styles.liveDot} aria-hidden="true" />
-        You're on the list. We'll be in touch before the pilot opens.
-      </p>
-    );
-  }
-
-  const error = result?.error;
-
-  return (
-    <fetcher.Form method="post" className={styles.form} noValidate>
-      <FieldLabel htmlFor="email" visuallyHidden>
-        Email address
-      </FieldLabel>
-      <TextInput
-        id="email"
-        name="email"
-        type="email"
-        required
-        placeholder="you@yourrestaurant.com"
-        className={styles.emailInput}
-        autoComplete="email"
-      />
-      <SubmitButton disabled={submitting} pending={pending} pendingChildren="Joining…">
-        Join waitlist
-      </SubmitButton>
-      <FieldError error={error} />
-    </fetcher.Form>
   );
 }
