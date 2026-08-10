@@ -3,6 +3,7 @@ import { parseWithZod } from "@conform-to/zod/v4";
 import { data, Form, useNavigation } from "react-router";
 import { z } from "zod";
 import { createUserSession, requireAnonymous } from "@auth/session.server";
+import { ENV } from "@env";
 import { AuthCard } from "@components/AuthCard/AuthCard";
 import { FieldError } from "@components/FieldError/FieldError";
 import { FieldLabel } from "@components/FieldLabel/FieldLabel";
@@ -72,8 +73,7 @@ export async function action({ request }: Route.ActionArgs) {
 
   try {
     const token = await issueVerificationToken(userId);
-    const baseUrl = process.env.APP_URL?.trim() || request.url;
-    const verifyUrl = new URL(`/verify?token=${token}`, baseUrl).toString();
+    const verifyUrl = new URL(`/verify?token=${token}`, ENV.APP_URL).toString();
     await sendVerificationEmail(normalizedEmail, verifyUrl);
   } catch (error) {
     // Sign-up must not fail on a verification-email error: the account and

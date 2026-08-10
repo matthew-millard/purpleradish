@@ -1,6 +1,6 @@
 import { randomBytes, createHash } from "node:crypto";
 import { and, eq, isNull } from "drizzle-orm";
-import { getDb } from "@db/client";
+import { db } from "@db/client";
 import { emailVerificationTokens, users } from "@db/schema";
 
 const TOKEN_BYTES = 32;
@@ -16,13 +16,11 @@ export function hashToken(token: string): string {
 
 export async function issueVerificationToken(userId: string): Promise<string> {
   const token = generateToken();
-  await getDb()
-    .insert(emailVerificationTokens)
-    .values({
-      userId,
-      tokenHash: hashToken(token),
-      expiresAt: new Date(Date.now() + TOKEN_TTL_MS),
-    });
+  await db.insert(emailVerificationTokens).values({
+    userId,
+    tokenHash: hashToken(token),
+    expiresAt: new Date(Date.now() + TOKEN_TTL_MS),
+  });
   return token;
 }
 
@@ -33,7 +31,6 @@ export type VerificationResult =
   | { status: "already_consumed" };
 
 export async function consumeVerificationToken(token: string): Promise<VerificationResult> {
-  const db = getDb();
   const [row] = await db
     .select()
     .from(emailVerificationTokens)
