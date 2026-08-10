@@ -15,6 +15,7 @@
       "@db/*": ["./app/db/*"],
       "@auth/*": ["./app/auth/*"],
       "@domain/*": ["./app/domain/*"],
+      "@env": ["./app/env.server.ts"],
       "@tests/*": ["./tests/*"]
     },
     "esModuleInterop": true,

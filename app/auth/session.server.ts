@@ -1,16 +1,7 @@
 import { createCookieSessionStorage, redirect } from "react-router";
+import { ENV } from "@env";
 
 const USER_ID_KEY = "userId";
-
-function getSessionSecret(): string {
-  const secret = process.env.SESSION_SECRET;
-  if (!secret) {
-    throw new Error(
-      "SESSION_SECRET is not set. Copy .env.example to .env and set a value (openssl rand -base64 32).",
-    );
-  }
-  return secret;
-}
 
 const storage = createCookieSessionStorage({
   cookie: {
@@ -20,7 +11,7 @@ const storage = createCookieSessionStorage({
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 60 * 24 * 30,
-    secrets: [getSessionSecret()],
+    secrets: [ENV.SESSION_SECRET],
   },
 });
 

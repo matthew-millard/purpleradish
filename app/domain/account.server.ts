@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import { getDb } from "@db/client";
+import { db } from "@db/client";
 import { memberships, organizations, users } from "@db/schema";
 import { hashPassword, verifyPassword } from "@domain/password";
 
@@ -9,7 +9,7 @@ import { hashPassword, verifyPassword } from "@domain/password";
 const DUMMY_HASH = "$2a$12$C6UzMDM.H6dfI/f/IKcEeO3jN0F2b3q5g5aQZ5o5cQ5oq5o5cQ5o5";
 
 export async function findUserByEmail(email: string) {
-  const [user] = await getDb().select().from(users).where(eq(users.email, email)).limit(1);
+  const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
   return user ?? null;
 }
 
@@ -32,7 +32,7 @@ export async function createAccount(input: {
 }): Promise<{ userId: string }> {
   const passwordHash = await hashPassword(input.password);
 
-  return getDb().transaction(async (tx) => {
+  return db.transaction(async (tx) => {
     const [user] = await tx
       .insert(users)
       .values({ email: input.email, passwordHash })

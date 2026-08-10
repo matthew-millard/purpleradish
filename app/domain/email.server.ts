@@ -1,8 +1,9 @@
 import { Resend } from "resend";
+import { ENV } from "@env";
 
 const FROM = "purpleradish <no-reply@notifications.purpleradish.io>";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(ENV.RESEND_API_KEY);
 
 export async function sendVerificationEmail(to: string, verifyUrl: string): Promise<void> {
   const { error } = await resend.emails.send({
