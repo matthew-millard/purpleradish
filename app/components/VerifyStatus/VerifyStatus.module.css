@@ -1,0 +1,22 @@
+.status {
+  display: grid;
+  gap: 8px;
+}
+
+.signal {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.heading {
+  font-size: var(--pr-text-heading);
+  letter-spacing: var(--pr-tracking-heading);
+  margin: 0;
+}
+
+.body {
+  color: var(--pr-text-secondary);
+  margin: 0 0 16px;
+}
