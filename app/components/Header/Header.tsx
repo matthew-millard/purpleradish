@@ -1,7 +1,7 @@
 import { Logo } from "@components/Logo/Logo";
 import styles from "./Header.module.css";
 import { Link } from "react-router";
-import { cx } from "~/lib/cx";
+import { cx } from "@lib/cx";
 
 interface Props {
   borderless?: boolean;

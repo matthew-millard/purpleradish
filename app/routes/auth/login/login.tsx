@@ -10,7 +10,7 @@ import { TextInput } from "@components/TextInput/TextInput";
 import { verifyCredentials } from "@domain/account.server";
 import { normalizeEmail } from "@domain/email";
 import { loginSchema } from "@domain/login";
-import { useDelayedPending } from "~/hooks/useDelayedPending";
+import { useDelayedPending } from "@hooks/useDelayedPending";
 import type { Route } from "./+types/login";
 import styles from "./login.module.css";
 
