@@ -15,7 +15,7 @@ import { sendVerificationEmail } from "@domain/email.server";
 import { HONEYPOT_FIELD, signupSchema } from "@domain/signup";
 import { checkSignupRateLimit } from "@domain/rateLimit.server";
 import { issueVerificationToken } from "@domain/verification.server";
-import { useDelayedPending } from "~/hooks/useDelayedPending";
+import { useDelayedPending } from "@hooks/useDelayedPending";
 import type { Route } from "./+types/signup";
 import styles from "./signup.module.css";
 

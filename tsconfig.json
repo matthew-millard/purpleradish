@@ -9,12 +9,13 @@
     "jsx": "react-jsx",
     "rootDirs": [".", "./.react-router/types"],
     "paths": {
-      "~/*": ["./app/*"],
       "@components/*": ["./app/components/*"],
       "@routes/*": ["./app/routes/*"],
       "@db/*": ["./app/db/*"],
       "@auth/*": ["./app/auth/*"],
       "@domain/*": ["./app/domain/*"],
+      "@hooks/*": ["./app/hooks/*"],
+      "@lib/*": ["./app/lib/*"],
       "@env": ["./app/env.server.ts"],
       "@tests/*": ["./tests/*"]
     },
