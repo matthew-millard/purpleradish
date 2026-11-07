@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { LinkButton } from "@components/LinkButton/LinkButton";
 import type { VerificationResult } from "@domain/verification.server";
-import { cx } from "~/lib/cx";
+import { cx } from "@lib/cx";
 import styles from "./VerifyStatus.module.css";
 
 type Status = VerificationResult["status"];

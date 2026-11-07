@@ -1,5 +1,5 @@
 import { Link, type LinkProps } from "react-router";
-import { cx } from "~/lib/cx";
+import { cx } from "@lib/cx";
 import styles from "./LinkButton.module.css";
 
 type Props = LinkProps;
