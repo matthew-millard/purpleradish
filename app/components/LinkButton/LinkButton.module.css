@@ -1,0 +1,26 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pr-action);
+  color: var(--pr-on-action);
+  border: none;
+  border-radius: var(--pr-radius-md);
+  font-family: var(--pr-font-sans);
+  font-size: var(--pr-text-small);
+  font-weight: 500;
+  padding: 10px 20px;
+  text-decoration: none;
+}
+
+.button:hover {
+  background: var(--pr-action-hover);
+  color: var(--pr-on-action);
+  text-decoration: none;
+}
+
+.button:focus-visible {
+  outline: none;
+  border-radius: var(--pr-radius-md);
+  box-shadow: var(--pr-focus-ring);
+}
