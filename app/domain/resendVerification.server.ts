@@ -1,13 +1,16 @@
-import { findUserById } from "@domain/account.server";
+import { isEmailVerified } from "@domain/account";
+import type { User } from "@domain/account.server";
 import { sendVerificationEmail } from "@domain/email.server";
 import { buildVerifyUrl, reissueVerificationToken } from "@domain/verification.server";
 
-export async function resendVerification(userId: string): Promise<void> {
-  const user = await findUserById(userId);
-  if (!user) {
-    throw new Error(`[resendVerification] no user for id ${userId}`);
+export type ResendResult = "sent" | "already_verified";
+
+export async function resendVerification(user: User): Promise<ResendResult> {
+  if (isEmailVerified(user)) {
+    return "already_verified";
   }
 
-  const token = await reissueVerificationToken(userId);
+  const token = await reissueVerificationToken(user.id);
   await sendVerificationEmail(user.email, buildVerifyUrl(token));
+  return "sent";
 }

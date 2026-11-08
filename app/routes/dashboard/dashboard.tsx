@@ -1,8 +1,9 @@
 import { getFormProps, useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod/v4";
 import { data, useFetcher } from "react-router";
-import { requireUserId } from "@auth/session.server";
+import { requireUser } from "@auth/session.server";
 import { FieldError } from "@components/FieldError/FieldError";
+import { isEmailVerified } from "@domain/account";
 import { dashboardSchema } from "@domain/dashboard";
 import { resendVerification } from "@domain/resendVerification.server";
 import type { Route } from "./+types/dashboard";
@@ -13,12 +14,12 @@ export function meta(_: Route.MetaArgs) {
 }
 
 export async function loader({ request }: Route.LoaderArgs) {
-  await requireUserId(request);
-  return null;
+  const user = await requireUser(request);
+  return { emailVerified: isEmailVerified(user) };
 }
 
 export async function action({ request }: Route.ActionArgs) {
-  const userId = await requireUserId(request);
+  const user = await requireUser(request);
   const formData = await request.formData();
 
   const submission = parseWithZod(formData, { schema: dashboardSchema });
@@ -29,13 +30,18 @@ export async function action({ request }: Route.ActionArgs) {
 
   switch (submission.value.intent) {
     case "resend-verification": {
-      await resendVerification(userId);
+      const result = await resendVerification(user);
+      if (result === "already_verified") {
+        return data(submission.reply({ formErrors: ["Your email is already verified."] }), {
+          status: 400,
+        });
+      }
       return submission.reply();
     }
   }
 }
 
-export default function Dashboard(_: Route.ComponentProps) {
+export default function Dashboard({ loaderData }: Route.ComponentProps) {
   const fetcher = useFetcher<typeof action>();
   const isPending = fetcher.state !== "idle";
 
@@ -46,12 +52,14 @@ export default function Dashboard(_: Route.ComponentProps) {
   return (
     <main className={styles.page}>
       <h1 className={styles.heading}>Dashboard</h1>
-      <fetcher.Form method="post" {...getFormProps(form)}>
-        <button type="submit" name="intent" value="resend-verification">
-          {isPending ? "Sending" : "Resend verification email"}
-        </button>
-        <FieldError error={fields.intent.errors?.[0]} />
-      </fetcher.Form>
+      {!loaderData.emailVerified && (
+        <fetcher.Form method="post" {...getFormProps(form)}>
+          <button type="submit" name="intent" value="resend-verification">
+            {isPending ? "Sending" : "Resend verification email"}
+          </button>
+          <FieldError error={fields.intent.errors?.[0] ?? form.errors?.[0]} />
+        </fetcher.Form>
+      )}
     </main>
   );
 }
