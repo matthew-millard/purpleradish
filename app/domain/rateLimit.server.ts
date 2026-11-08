@@ -1,10 +1,19 @@
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 
+const redis = Redis.fromEnv();
+
 const signupLimiter = new Ratelimit({
-  redis: Redis.fromEnv(),
+  redis,
   limiter: Ratelimit.slidingWindow(5, "1 h"),
   prefix: "ratelimit:signup",
+  analytics: false,
+});
+
+const resendVerificationLimiter = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(3, "1 h"),
+  prefix: "ratelimit:resend-verification",
   analytics: false,
 });
 
@@ -20,5 +29,12 @@ export function getClientIp(request: Request): string {
 
 export async function checkSignupRateLimit(request: Request): Promise<{ allowed: boolean }> {
   const { success } = await signupLimiter.limit(getClientIp(request));
+  return { allowed: success };
+}
+
+export async function checkResendVerificationRateLimit(
+  userId: string,
+): Promise<{ allowed: boolean }> {
+  const { success } = await resendVerificationLimiter.limit(userId);
   return { allowed: success };
 }
