@@ -4,6 +4,7 @@ import { data, useFetcher } from "react-router";
 import { requireUserId } from "@auth/session.server";
 import { FieldError } from "@components/FieldError/FieldError";
 import { dashboardSchema } from "@domain/dashboard";
+import { resendVerification } from "@domain/resendVerification.server";
 import type { Route } from "./+types/dashboard";
 import styles from "./dashboard.module.css";
 
@@ -17,7 +18,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 }
 
 export async function action({ request }: Route.ActionArgs) {
-  await requireUserId(request);
+  const userId = await requireUserId(request);
   const formData = await request.formData();
 
   const submission = parseWithZod(formData, { schema: dashboardSchema });
@@ -28,8 +29,8 @@ export async function action({ request }: Route.ActionArgs) {
 
   switch (submission.value.intent) {
     case "resend-verification": {
-      console.log("Resent");
-      return null;
+      await resendVerification(userId);
+      return submission.reply();
     }
   }
 }

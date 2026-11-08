@@ -3,7 +3,6 @@ import { parseWithZod } from "@conform-to/zod/v4";
 import { data, Form, useNavigation } from "react-router";
 import { z } from "zod";
 import { createUserSession, requireAnonymous } from "@auth/session.server";
-import { ENV } from "@env";
 import { AuthCard } from "@components/AuthCard/AuthCard";
 import { FieldError } from "@components/FieldError/FieldError";
 import { FieldLabel } from "@components/FieldLabel/FieldLabel";
@@ -14,7 +13,7 @@ import { normalizeEmail } from "@domain/email";
 import { sendVerificationEmail } from "@domain/email.server";
 import { HONEYPOT_FIELD, signupSchema } from "@domain/signup";
 import { checkSignupRateLimit } from "@domain/rateLimit.server";
-import { issueVerificationToken } from "@domain/verification.server";
+import { buildVerifyUrl, issueVerificationToken } from "@domain/verification.server";
 import { useDelayedPending } from "@hooks/useDelayedPending";
 import type { Route } from "./+types/signup";
 import styles from "./signup.module.css";
@@ -73,8 +72,7 @@ export async function action({ request }: Route.ActionArgs) {
 
   try {
     const token = await issueVerificationToken(userId);
-    const verifyUrl = new URL(`/verify?token=${token}`, ENV.APP_URL).toString();
-    await sendVerificationEmail(normalizedEmail, verifyUrl);
+    await sendVerificationEmail(normalizedEmail, buildVerifyUrl(token));
   } catch (error) {
     // Sign-up must not fail on a verification-email error: the account and
     // session already exist. Log and continue. TODO: report to Sentry.
