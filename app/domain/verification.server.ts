@@ -1,7 +1,8 @@
 import { randomBytes, createHash } from "node:crypto";
-import { and, eq, isNull } from "drizzle-orm";
+import { and, eq, gt, isNull } from "drizzle-orm";
 import { db } from "@db/client";
 import { emailVerificationTokens, users } from "@db/schema";
+import { ENV } from "@env";
 
 const TOKEN_BYTES = 32;
 const TOKEN_TTL_MS = 1000 * 60 * 60 * 72; // 72 hours
@@ -14,6 +15,10 @@ export function hashToken(token: string): string {
   return createHash("sha256").update(token).digest("hex");
 }
 
+export function buildVerifyUrl(token: string): string {
+  return new URL(`/verify?token=${token}`, ENV.APP_URL).toString();
+}
+
 export async function issueVerificationToken(userId: string): Promise<string> {
   const token = generateToken();
   await db.insert(emailVerificationTokens).values({
@@ -22,6 +27,35 @@ export async function issueVerificationToken(userId: string): Promise<string> {
     expiresAt: new Date(Date.now() + TOKEN_TTL_MS),
   });
   return token;
+}
+
+/**
+ * Expire the user's outstanding tokens and issue a fresh one in a single
+ * transaction, so only the latest email carries a working link.
+ */
+export async function reissueVerificationToken(userId: string): Promise<string> {
+  return db.transaction(async (tx) => {
+    const now = new Date();
+
+    await tx
+      .update(emailVerificationTokens)
+      .set({ expiresAt: now })
+      .where(
+        and(
+          eq(emailVerificationTokens.userId, userId),
+          isNull(emailVerificationTokens.consumedAt),
+          gt(emailVerificationTokens.expiresAt, now),
+        ),
+      );
+
+    const token = generateToken();
+    await tx.insert(emailVerificationTokens).values({
+      userId,
+      tokenHash: hashToken(token),
+      expiresAt: new Date(now.getTime() + TOKEN_TTL_MS),
+    });
+    return token;
+  });
 }
 
 export type VerificationResult =

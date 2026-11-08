@@ -13,6 +13,17 @@ export async function findUserByEmail(email: string) {
   return user ?? null;
 }
 
+export type User = Pick<typeof users.$inferSelect, "id" | "email" | "emailVerifiedAt">;
+
+export async function findUserById(id: string): Promise<User | null> {
+  const [user] = await db
+    .select({ id: users.id, email: users.email, emailVerifiedAt: users.emailVerifiedAt })
+    .from(users)
+    .where(eq(users.id, id))
+    .limit(1);
+  return user ?? null;
+}
+
 export async function verifyCredentials(
   email: string,
   password: string,
