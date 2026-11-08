@@ -12,7 +12,7 @@ import { normalizeEmail } from "@domain/email";
 import { loginSchema } from "@domain/login";
 import { useDelayedPending } from "@hooks/useDelayedPending";
 import type { Route } from "./+types/login";
-import styles from "./login.module.css";
+import styles from "../Auth.module.css";
 
 export function meta(_: Route.MetaArgs) {
   return [{ title: "Log in · purpleradish" }];

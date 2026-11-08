@@ -17,7 +17,7 @@ import { checkSignupRateLimit } from "@domain/rateLimit.server";
 import { issueVerificationToken } from "@domain/verification.server";
 import { useDelayedPending } from "@hooks/useDelayedPending";
 import type { Route } from "./+types/signup";
-import styles from "./signup.module.css";
+import styles from "../Auth.module.css";
 
 export function meta(_: Route.MetaArgs) {
   return [{ title: "Sign up · purpleradish" }];
