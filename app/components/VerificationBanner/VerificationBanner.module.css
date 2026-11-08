@@ -1,0 +1,26 @@
+.banner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 20px;
+  background: var(--pr-surface-1);
+  border: 1px solid var(--pr-border);
+  border-radius: var(--pr-radius-lg);
+}
+
+.message {
+  margin: 0;
+  font-size: var(--pr-text-body);
+  color: var(--pr-text-primary);
+}
+
+/* Reserve the button's footprint so the banner keeps its height across states. */
+.action {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  min-width: 120px;
+  min-height: 40px;
+}

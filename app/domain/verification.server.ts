@@ -1,5 +1,5 @@
 import { randomBytes, createHash } from "node:crypto";
-import { and, eq, isNull } from "drizzle-orm";
+import { and, eq, gt, isNull } from "drizzle-orm";
 import { db } from "@db/client";
 import { emailVerificationTokens, users } from "@db/schema";
 
@@ -22,6 +22,34 @@ export async function issueVerificationToken(userId: string): Promise<string> {
     expiresAt: new Date(Date.now() + TOKEN_TTL_MS),
   });
   return token;
+}
+
+/**
+ * Expire every outstanding token for the user and issue a fresh one, so only
+ * the most recent email carries a working link.
+ */
+export async function reissueVerificationToken(userId: string): Promise<string> {
+  return db.transaction(async (tx) => {
+    const now = new Date();
+    await tx
+      .update(emailVerificationTokens)
+      .set({ expiresAt: now })
+      .where(
+        and(
+          eq(emailVerificationTokens.userId, userId),
+          isNull(emailVerificationTokens.consumedAt),
+          gt(emailVerificationTokens.expiresAt, now),
+        ),
+      );
+
+    const token = generateToken();
+    await tx.insert(emailVerificationTokens).values({
+      userId,
+      tokenHash: hashToken(token),
+      expiresAt: new Date(now.getTime() + TOKEN_TTL_MS),
+    });
+    return token;
+  });
 }
 
 export type VerificationResult =

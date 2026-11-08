@@ -46,3 +46,8 @@ export async function createAccount(input: {
     return { userId: user.id };
   });
 }
+
+export async function findUserById(id: string) {
+  const [user] = await db.select().from(users).where(eq(users.id, id)).limit(1);
+  return user ?? null;
+}

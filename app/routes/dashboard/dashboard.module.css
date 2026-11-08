@@ -8,3 +8,7 @@
   font-size: var(--pr-text-heading);
   margin: 0;
 }
+
+.page > * + * {
+  margin-top: 24px;
+}
