@@ -5,8 +5,7 @@ import { requireUser } from "@auth/session.server";
 import { FieldError } from "@components/FieldError/FieldError";
 import { isEmailVerified } from "@domain/account";
 import { RESEND_VERIFICATION_EMAIL_INTENT, dashboardSchema } from "@domain/dashboard";
-import { checkResendVerificationRateLimit } from "@domain/rateLimit.server";
-import { resendVerification } from "@domain/resendVerification.server";
+import { handleResendVerification } from "@domain/resendVerification.server";
 import { useDelayedPending } from "@hooks/useDelayedPending";
 import type { Route } from "./+types/dashboard";
 import styles from "./dashboard.module.css";
@@ -31,25 +30,8 @@ export async function action({ request }: Route.ActionArgs) {
   }
 
   switch (submission.value.intent) {
-    case RESEND_VERIFICATION_EMAIL_INTENT: {
-      const { allowed } = await checkResendVerificationRateLimit(user.id);
-      if (!allowed) {
-        return data(
-          submission.reply({
-            formErrors: ["You've asked for a few links recently. Try again in an hour."],
-          }),
-          { status: 429 },
-        );
-      }
-
-      const result = await resendVerification(user);
-      if (result === "already_verified") {
-        return data(submission.reply({ formErrors: ["Your email is already verified."] }), {
-          status: 400,
-        });
-      }
-      return submission.reply();
-    }
+    case RESEND_VERIFICATION_EMAIL_INTENT:
+      return handleResendVerification({ user, submission });
   }
 }
 
